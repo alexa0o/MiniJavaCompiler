@@ -2,14 +2,15 @@
 
 #include <string>
 
+#include "type.h"
 #include "expression.h"
 
 class NewArrayExpression: public Expression {
 public:
-    NewArrayExpression(const std::string& typeName, Expression* size);
+    NewArrayExpression(Type type, Expression* size);
     void accept(Visitor* visitor) override;
 
 private:
-    std::string typeName_;
+    Type type_;
     Expression* size_;
 };

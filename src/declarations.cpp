@@ -4,8 +4,8 @@
 
 #include "declarations.h"
 
-VariableDeclaration::VariableDeclaration(const std::string &variable):
-    variable_(variable){}
+VariableDeclaration::VariableDeclaration(Type type, const std::string &variable):
+    variable_(variable), type_(std::move(type)) {}
 
 void VariableDeclaration::accept(Visitor *visitor) {}
 
@@ -14,8 +14,8 @@ ClassDeclaration::ClassDeclaration(const std::string &name, DeclarationList *dec
 
 void ClassDeclaration::accept(Visitor *visitor) {}
 
-MethodDeclaration::MethodDeclaration(const std::string &name, StatementList *statementList):
-    name_(name), statementList_(statementList) {}
+MethodDeclaration::MethodDeclaration(Type type, const std::string &name, StatementList *statementList):
+    type_(std::move(type)), name_(name), statementList_(statementList) {}
 
 void MethodDeclaration::accept(Visitor *visitor) {}
 
@@ -33,5 +33,5 @@ size_t DeclarationList::size() const {
 
 MainClassDeclaration::MainClassDeclaration(const std::string &name, StatementList *statementList):
         ClassDeclaration(name, new DeclarationList()) {
-    declarations_->addDeclaration(new MethodDeclaration("main", statementList));
+    declarations_->addDeclaration(new MethodDeclaration(Type(), "main", statementList));
 }

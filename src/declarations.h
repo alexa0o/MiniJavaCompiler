@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "type.h"
 #include "base_element.h"
 #include "statements/statement_list.h"
 
@@ -19,20 +20,22 @@ public:
 
 class VariableDeclaration: public Declaration {
 public:
-    VariableDeclaration(const std::string& variable);
+    VariableDeclaration(Type type, const std::string& variable);
     void accept(Visitor* visitor) override;
 
 private:
     std::string variable_;
+    Type type_;
 };
 
 class MethodDeclaration: public Declaration {
 public:
-    MethodDeclaration(const std::string& name, StatementList* statementList);
+    MethodDeclaration(Type type, const std::string& name, StatementList* statementList);
     void accept(Visitor* visitor) override;
 
     std::string name_;
     StatementList* statementList_;
+    Type type_;
 };
 
 class ClassDeclaration: public Declaration {

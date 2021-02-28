@@ -5,8 +5,9 @@ DeclarationStatement::DeclarationStatement(Declaration *declaration):
 
 void DeclarationStatement::accept(Visitor *visitor) {}
 
-VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(const std::string &variable,
+VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(Type type,
+                                                                             const std::string &variable,
                                                                              Expression *expression):
-    variable_(variable), expression_(expression) {}
+    variable_(variable), expression_(expression), type_(std::move(type)) {}
 
 void VariableDeclarationAndAssignStatement::accept(Visitor *visitor) {}

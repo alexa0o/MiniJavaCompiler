@@ -20,7 +20,7 @@
 
 blank [ \t\r]
 id [a-zA-Z][a-zA-Z_0-9]*
-int [0-9]*
+int -?[0-9]*
 
 %{
   // Code run each time a pattern is matched.

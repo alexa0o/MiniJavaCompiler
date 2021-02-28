@@ -8,6 +8,7 @@
 
 %code requires {
   #include <string>
+  #include "type.h"
   class Scanner;
   class Driver;
 
@@ -21,6 +22,7 @@
   class NewArrayExpression;
   class NotExpression;
   class ThisExpression;
+  class InvocationExpression;
 
   class Statement;
   class AssertStatement;
@@ -74,6 +76,7 @@
   #include "expressions/new_array.h"
   #include "expressions/not.h"
   #include "expressions/this.h"
+  #include "expressions/invocation.h"
 
   #include "statements/assert.h"
   #include "statements/assign.h"
@@ -173,7 +176,7 @@
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NUMBER "number"
 
-%nterm <Expression*> expr
+%nterm <Expression*> expr method_invocation lvalue
 %nterm <Statement*> statement
 %nterm <StatementList*> statements
 %nterm <Operator*> binary_operator
@@ -185,7 +188,8 @@
 %nterm <Declaration*> method_declaration
 %nterm <MainClassDeclaration*> main_class
 %nterm <Program*> program
-
+%nterm <Type> type simple_type array_type
+%nterm <std::string> type_identifier
 
 %%
 %start program;
@@ -217,7 +221,7 @@ declaration:
     | variable_declaration { $$ = $1; }
 
 method_declaration:
-    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($3, $8); }
+    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($2, $3, $8); }
 
 formals:
     %empty
@@ -228,23 +232,23 @@ variable:
     type "identifier"
 
 variable_declaration:
-    type "identifier" ";" { $$ = new VariableDeclaration($2); }
+    type "identifier" ";" { $$ = new VariableDeclaration($1, $2); }
 
 type:
-    simple_type
-    | array_type
+    simple_type { $$ = $1; }
+    | array_type { $$ = $1; }
 
 simple_type:
-    "int"
-    | "boolean"
-    | "void"
-    | type_identifier
+    "int" { $$ = Type("int"); }
+    | "boolean" { $$ = Type("bool"); }
+    | "void" { $$ = Type(""); }
+    | type_identifier { $$ = Type($1); }
 
 array_type:
-    simple_type "[" "]"
+    simple_type "[" "]" { $1.isArray = true; $$ = $1; }
 
 type_identifier:
-    "identifier"
+    "identifier" { $$ = $1; }
 
 statements:
     %empty { $$ = new StatementList(); }
@@ -253,21 +257,21 @@ statements:
 statement:
     ASSERT "(" expr ")" ";" { $$ = new AssertStatement($3); }
     | local_variable_declaration { $$ = new DeclarationStatement($1); }
-    | type "identifier" "=" expr ";" { $$ = new VariableDeclarationAndAssignStatement($2, $4); }
+    | type "identifier" "=" expr ";" { $$ = new VariableDeclarationAndAssignStatement($1, $2, $4); }
     | "{" statements "}" { $$ = new ScopeStatement($2); }
     | IF "(" expr ")" statement { $$ = new IfThenStatement($3, $5); }
     | IF "(" expr ")" statement ELSE statement { $$ = new IfThenElseStatement($3, $5, $7); }
     | WHILE "(" expr ")" statement { $$ = new WhileStatement($3, $5); }
-    | lvalue "=" expr ";" { $$ = new AssignStatement(nullptr, $3); }
+    | lvalue "=" expr ";" { $$ = new AssignStatement($1, $3); }
     | RETURN expr ";" { $$ = new ReturnStatement($2); }
     | PRINTLN "(" expr ")" ";" { $$ = new PrintlnStatement($3); }
-    //| method_invocation ";" { $$ = $1 }
+    | method_invocation ";" { $$ = new InvocationStatement($1); }
 
 local_variable_declaration:
     variable_declaration { $$ = $1; }
 
 method_invocation:
-    expr "." "identifier" "(" args ")"
+    expr "." "identifier" "(" args ")" { $$ = new InvocationExpression($1, $3); }
 
 args:
     %empty
@@ -279,7 +283,7 @@ field_invocation:
     | THIS "." "identifier" "[" expr "]"
 
 lvalue:
-    "identifier"
+    "identifier" { $$ = new GetValueExpression($1); }
     //| "identifier" "[" expr "]"
     //| field_invocation
 
@@ -287,8 +291,8 @@ expr:
     expr binary_operator expr { $$ = new BinaryExpression($1, $3, $2); }
     | expr "[" expr "]" { $$ = new AccessExpression($1, $3); }
     | expr "." LENGTH { $$ = new LengthExpression($1); }
-    | NEW simple_type "[" expr "]" { $$ = new NewArrayExpression("", $4); }
-    | NEW type_identifier "(" ")" { $$ = new NewExpression(""); }
+    | NEW simple_type "[" expr "]" { $$ = new NewArrayExpression($2, $4); }
+    | NEW simple_type "(" ")" { $$ = new NewExpression($2); }
     | "!" expr { $$ = new NotExpression($2); }
     | "(" expr ")" { $$ = $2; }
     | "identifier" { $$ = new GetValueExpression($1); }
@@ -296,7 +300,7 @@ expr:
     | THIS { $$ = new ThisExpression(); }
     | TRUE { $$ = new LiteralExpression(true); }
     | FALSE { $$ = new LiteralExpression(false); }
-    //| method_invocation { $$ = $1 }
+    | method_invocation { $$ = $1; }
     //| field_invocation
 
 binary_operator:

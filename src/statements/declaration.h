@@ -1,5 +1,6 @@
 #pragma once
 
+#include "type.h"
 #include "statement.h"
 #include "declarations.h"
 
@@ -14,10 +15,11 @@ private:
 
 class VariableDeclarationAndAssignStatement: public Statement {
 public:
-    VariableDeclarationAndAssignStatement(const std::string& variable, Expression* expression);
+    VariableDeclarationAndAssignStatement(Type type, const std::string& variable, Expression* expression);
     void accept(Visitor* visitor) override;
 
 private:
     std::string variable_;
     Expression* expression_;
+    Type type_;
 };

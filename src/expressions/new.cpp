@@ -1,6 +1,6 @@
 #include "new.h"
 
-NewExpression::NewExpression(const std::string &typeName):
-    typeName_(typeName) {}
+NewExpression::NewExpression(Type type):
+    type_(std::move(type)) {}
 
 void NewExpression::accept(Visitor* visitor) {}
