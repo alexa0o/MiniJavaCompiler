@@ -176,7 +176,7 @@
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NUMBER "number"
 
-%nterm <Expression*> expr method_invocation lvalue
+%nterm <Expression*> expr method_invocation lvalue field_invocation
 %nterm <Statement*> statement
 %nterm <StatementList*> statements
 %nterm <Operator*> binary_operator
@@ -279,13 +279,12 @@ args:
     | args "," expr
 
 field_invocation:
-    THIS "." "identifier"
-    | THIS "." "identifier" "[" expr "]"
+    THIS "." "identifier" { $$ = new InvocationExpression(new ThisExpression(), $3); }
 
 lvalue:
     "identifier" { $$ = new GetValueExpression($1); }
-    //| "identifier" "[" expr "]"
-    //| field_invocation
+    | "identifier" "[" expr "]" { $$ = new AccessExpression(new GetValueExpression($1), $3); }
+    | field_invocation { $$ = $1; }
 
 expr:
     expr binary_operator expr { $$ = new BinaryExpression($1, $3, $2); }
@@ -301,7 +300,7 @@ expr:
     | TRUE { $$ = new LiteralExpression(true); }
     | FALSE { $$ = new LiteralExpression(false); }
     | method_invocation { $$ = $1; }
-    //| field_invocation
+    | field_invocation { $$ = $1; }
 
 binary_operator:
     "&&" { $$ = new DAmpersandOperator(); }
