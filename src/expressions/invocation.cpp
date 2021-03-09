@@ -8,5 +8,5 @@ InvocationExpression::InvocationExpression(Expression *expression, const std::st
     expression_(expression), name_(name) {}
 
 void InvocationExpression::accept(Visitor *visitor) {
-
+    visitor->visit(this);
 }

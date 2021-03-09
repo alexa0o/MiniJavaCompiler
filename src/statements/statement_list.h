@@ -9,6 +9,6 @@ public:
     void addStatement(Statement* statement);
     void accept(Visitor* visitor) override;
 
-    std::vector<Statement*> statements_;
+    std::vector<Statement*> statements;
 };
 

@@ -1,6 +1,8 @@
 #include "while.h"
 
 WhileStatement::WhileStatement(Expression *condition, Statement *statement):
-    condition_(condition), statement_(statement) {}
+        condition(condition), statement(statement) {}
 
-void WhileStatement::accept(Visitor* visitor) {}
+void WhileStatement::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

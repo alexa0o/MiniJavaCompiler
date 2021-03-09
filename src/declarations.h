@@ -15,7 +15,7 @@ public:
     size_t size() const;
     void accept(Visitor* visitor) override;
 
-    std::vector<Declaration*> declarations_;
+    std::vector<Declaration*> declarations;
 };
 
 class VariableDeclaration: public Declaration {
@@ -23,9 +23,8 @@ public:
     VariableDeclaration(Type type, const std::string& variable);
     void accept(Visitor* visitor) override;
 
-private:
-    std::string variable_;
-    Type type_;
+    std::string variable;
+    Type type;
 };
 
 class MethodDeclaration: public Declaration {
@@ -33,9 +32,9 @@ public:
     MethodDeclaration(Type type, const std::string& name, StatementList* statementList);
     void accept(Visitor* visitor) override;
 
-    std::string name_;
-    StatementList* statementList_;
-    Type type_;
+    std::string name;
+    StatementList* statementList;
+    Type type;
 };
 
 class ClassDeclaration: public Declaration {
@@ -43,9 +42,8 @@ public:
     ClassDeclaration(const std::string& name, DeclarationList* declarations);
     void accept(Visitor* visitor) override;
 
-
-    std::string name_;
-    DeclarationList* declarations_;
+    std::string name;
+    DeclarationList* declarations;
 };
 
 class MainClassDeclaration: public ClassDeclaration {

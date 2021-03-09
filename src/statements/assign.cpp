@@ -1,6 +1,8 @@
 #include "assign.h"
 
 AssignStatement::AssignStatement(Expression* variable, Expression *expression):
-    variable_(variable), expression_(expression) {}
+        variable(variable), expression(expression) {}
 
-void AssignStatement::accept(Visitor* visitor) {}
+void AssignStatement::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

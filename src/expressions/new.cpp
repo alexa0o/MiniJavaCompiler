@@ -3,4 +3,6 @@
 NewExpression::NewExpression(Type type):
     type_(std::move(type)) {}
 
-void NewExpression::accept(Visitor* visitor) {}
+void NewExpression::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

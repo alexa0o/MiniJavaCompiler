@@ -9,6 +9,5 @@ public:
     GetValueExpression(const std::string& variable);
     void accept(Visitor* visitor) override;
 
-private:
-    std::string variable_;
+    std::string variable;
 };

@@ -3,4 +3,6 @@
 NewArrayExpression::NewArrayExpression(Type type, Expression *size):
     type_(std::move(type)), size_(size) {}
 
-void NewArrayExpression::accept(Visitor *visitor) {}
+void NewArrayExpression::accept(Visitor *visitor) {
+    visitor->visit(this);
+}

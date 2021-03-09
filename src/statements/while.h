@@ -7,7 +7,6 @@ public:
     WhileStatement(Expression* condition, Statement* statement);
     void accept(Visitor* visitor) override;
 
-private:
-    Expression* condition_;
-    Statement* statement_;
+    Expression* condition;
+    Statement* statement;
 };

@@ -6,7 +6,7 @@ class Program {
 public:
     Program(MainClassDeclaration* main, DeclarationList* classes);
 
-    MainClassDeclaration* main_;
-    DeclarationList* classes_;
+    MainClassDeclaration* main;
+    DeclarationList* classes;
 };
 
