@@ -2,4 +2,6 @@
 
 ThisExpression::ThisExpression() {}
 
-void ThisExpression::accept(Visitor *visitor) {}
+void ThisExpression::accept(Visitor *visitor) {
+    visitor->visit(this);
+}

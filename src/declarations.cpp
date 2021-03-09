@@ -1,37 +1,39 @@
-//
-// Created by haritonov_a on 28.02.2021.
-//
-
 #include "declarations.h"
 
 VariableDeclaration::VariableDeclaration(Type type, const std::string &variable):
-    variable_(variable), type_(std::move(type)) {}
+        variable(variable), type(std::move(type)) {}
 
-void VariableDeclaration::accept(Visitor *visitor) {}
+void VariableDeclaration::accept(Visitor *visitor) {
+    visitor->visit(this);
+}
 
 ClassDeclaration::ClassDeclaration(const std::string &name, DeclarationList *declarations):
-    name_(name), declarations_(declarations) {}
+        name(name), declarations(declarations) {}
 
-void ClassDeclaration::accept(Visitor *visitor) {}
+void ClassDeclaration::accept(Visitor *visitor) {
+    //visitor->visit(this);
+}
 
 MethodDeclaration::MethodDeclaration(Type type, const std::string &name, StatementList *statementList):
-    type_(std::move(type)), name_(name), statementList_(statementList) {}
+        type(std::move(type)), name(name), statementList(statementList) {}
 
-void MethodDeclaration::accept(Visitor *visitor) {}
+void MethodDeclaration::accept(Visitor *visitor) {
+    visitor->visit(this);
+}
 
 void DeclarationList::addDeclaration(Declaration *declaration) {
-    declarations_.push_back(declaration);
+    declarations.push_back(declaration);
 }
 
 void DeclarationList::accept(Visitor *visitor) {
-
+    //visitor->visit(this);
 }
 
 size_t DeclarationList::size() const {
-    return declarations_.size();
+    return declarations.size();
 }
 
 MainClassDeclaration::MainClassDeclaration(const std::string &name, StatementList *statementList):
         ClassDeclaration(name, new DeclarationList()) {
-    declarations_->addDeclaration(new MethodDeclaration(Type(), "main", statementList));
+    declarations->addDeclaration(new MethodDeclaration(Type(), "main", statementList));
 }

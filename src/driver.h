@@ -13,7 +13,8 @@ public:
     Driver();
     int result;
     int parse(const std::string& f);
-    int Evaluate();
+    int evaluate();
+    void print(const std::string& filename);
     std::string file;
     bool trace_parsing;
 

@@ -1,5 +1,9 @@
 #include "rts.h"
 
-int RTSOperator::operator()(Expression *left, Expression *right) {
-    return 0;
+int RTSOperator::operator()(int left, int right) {
+    return left > right;
+}
+
+std::string RTSOperator::toString() const {
+    return ">";
 }

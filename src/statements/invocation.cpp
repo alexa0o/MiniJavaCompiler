@@ -1,6 +1,8 @@
 #include "invocation.h"
 
 InvocationStatement::InvocationStatement(Expression* invocationExpression):
-    expression_(invocationExpression) {}
+        expression(invocationExpression) {}
 
-void InvocationStatement::accept(Visitor* visitor) {}
+void InvocationStatement::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

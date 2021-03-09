@@ -10,10 +10,11 @@ int main(int argc, char** argv) {
             driver.trace_parsing = true;
         } else if (argv[i] == std::string("-s")) {
             driver.trace_scanning = true;
-        } else if (!driver.parse(argv[i])) {
-            std::cout << driver.result << std::endl;
         } else {
-            result = 1;
+            driver.parse(argv[i]);
+            std::cout << driver.evaluate() << '\n';
+            driver.print("tree.txt");
+            ++i;
         }
     }
 

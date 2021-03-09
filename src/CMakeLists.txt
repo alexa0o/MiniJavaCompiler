@@ -31,6 +31,12 @@ file(
         "${CMAKE_SOURCE_DIR}/src/operators/*.cpp"
 )
 
+file(
+        GLOB
+        VISITORS_SOURCE
+        "${CMAKE_SOURCE_DIR}/src/visitors/*.cpp"
+)
+
 BISON_TARGET(
         Parser
         parser.y
@@ -49,6 +55,7 @@ ADD_FLEX_BISON_DEPENDENCY(Scanner Parser)
 add_library(Statements SHARED ${STATEMENTS_SOURCE})
 add_library(Expressions SHARED ${EXPRESSIONS_SOURCE})
 add_library(Operators SHARED ${OPERATORS_SOURCE})
+add_library(Visitors SHARED ${VISITORS_SOURCE})
 
 add_library(GrammarAndDriver SHARED driver.cpp declarations.cpp program.cpp ${BISON_Parser_OUTPUTS} ${FLEX_Scanner_OUTPUTS})
-target_link_libraries(GrammarAndDriver Statements Expressions Operators)
+target_link_libraries(GrammarAndDriver Statements Expressions Operators Visitors)

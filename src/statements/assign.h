@@ -9,7 +9,6 @@ public:
     AssignStatement(Expression* variable, Expression* expression);
     void accept(Visitor* visitor) override;
 
-private:
-    Expression* variable_;
-    Expression* expression_;
+    Expression* variable;
+    Expression* expression;
 };

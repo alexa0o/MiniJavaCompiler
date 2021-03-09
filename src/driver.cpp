@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include "driver.h"
+#include "visitors/interpreter.h"
+#include "visitors/print_visitor.h"
 
 Driver::Driver():
     trace_parsing(false),
@@ -18,8 +20,9 @@ int Driver::parse(const std::string& f) {
     return res;
 }
 
-int Driver::Evaluate() {
-    return 0;
+int Driver::evaluate() {
+    Interpreter interpreter;
+    return interpreter.getResult(program);
 }
 
 void Driver::scan_begin() {
@@ -33,4 +36,9 @@ void Driver::scan_begin() {
 
 void Driver::scan_end() {
     stream.close();
+}
+
+void Driver::print(const std::string& filename) {
+    PrintVisitor printVisitor(filename);
+    printVisitor.visit(program);
 }

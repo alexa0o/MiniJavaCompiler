@@ -1,6 +1,8 @@
 #include "binary.h"
 
 BinaryExpression::BinaryExpression(Expression *leftExpression, Expression *rightExpression, Operator *op):
-    leftExpression_(leftExpression), rightExpression_(rightExpression), op_(op) {}
+        leftExpression(leftExpression), rightExpression(rightExpression), op(op) {}
 
-void BinaryExpression::accept(Visitor* visitor) {}
+void BinaryExpression::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

@@ -1,5 +1,9 @@
 #include "dassign.h"
 
-int DAssignOperator::operator()(Expression *left, Expression *right) {
-    return 0;
+int DAssignOperator::operator()(int left, int right) {
+    return left == right;
+}
+
+std::string DAssignOperator::toString() const {
+    return "==";
 }

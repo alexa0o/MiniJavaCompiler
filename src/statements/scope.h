@@ -8,6 +8,5 @@ public:
     ScopeStatement(StatementList* statementList);
     void accept(Visitor* visitor) override;
 
-private:
-    StatementList* statementList_;
+    StatementList* statementList;
 };

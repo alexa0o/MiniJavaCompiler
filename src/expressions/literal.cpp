@@ -2,6 +2,8 @@
 
 
 LiteralExpression::LiteralExpression(int value):
-    value_(value) {}
+        value(value) {}
 
-void LiteralExpression::accept(Visitor* visitor) {}
+void LiteralExpression::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

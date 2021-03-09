@@ -8,8 +8,7 @@ public:
     BinaryExpression(Expression* leftExpression, Expression* rightExpression, Operator* op);
     void accept(Visitor* visitor) override;
 
-private:
-    Expression* leftExpression_;
-    Expression* rightExpression_;
-    Operator* op_;
+    Expression* leftExpression;
+    Expression* rightExpression;
+    Operator* op;
 };

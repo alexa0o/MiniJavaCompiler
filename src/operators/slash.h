@@ -3,6 +3,7 @@
 #include "operator.h"
 
 struct SlashOperator: Operator {
-    int operator()(Expression* left, Expression* right) override;
+    int operator()(int left, int right) override;
+    std::string toString() const override;
 };
 
