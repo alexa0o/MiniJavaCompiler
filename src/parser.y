@@ -279,7 +279,7 @@ args:
     | args "," expr
 
 field_invocation:
-    THIS "." "identifier" { $$ = new InvocationExpression(new ThisExpression(), $3); }
+    expr "." "identifier" { $$ = new InvocationExpression(new ThisExpression(), $3); }
 
 lvalue:
     "identifier" { $$ = new GetValueExpression($1); }
