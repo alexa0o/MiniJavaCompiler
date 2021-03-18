@@ -20,21 +20,21 @@ public:
 
 class VariableDeclaration: public Declaration {
 public:
-    VariableDeclaration(Type type, const std::string& variable);
+    VariableDeclaration(SimpleType type, const std::string& variable);
     void accept(Visitor* visitor) override;
 
     std::string variable;
-    Type type;
+    SimpleType type;
 };
 
 class MethodDeclaration: public Declaration {
 public:
-    MethodDeclaration(Type type, const std::string& name, StatementList* statementList);
+    MethodDeclaration(SimpleType type, const std::string& name, StatementList* statementList);
     void accept(Visitor* visitor) override;
 
     std::string name;
     StatementList* statementList;
-    Type type;
+    SimpleType type;
 };
 
 class ClassDeclaration: public Declaration {

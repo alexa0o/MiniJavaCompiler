@@ -108,7 +108,7 @@
 %nterm <Declaration*> method_declaration
 %nterm <MainClassDeclaration*> main_class
 %nterm <Program*> program
-%nterm <Type> type simple_type array_type
+%nterm <SimpleType> type simple_type array_type
 %nterm <std::string> type_identifier
 
 %%
@@ -159,10 +159,10 @@ type:
     | array_type { $$ = $1; }
 
 simple_type:
-    "int" { $$ = Type("int"); }
-    | "boolean" { $$ = Type("bool"); }
-    | "void" { $$ = Type(""); }
-    | type_identifier { $$ = Type($1); }
+    "int" { $$ = SimpleType("int"); }
+    | "boolean" { $$ = SimpleType("bool"); }
+    | "void" { $$ = SimpleType(""); }
+    | type_identifier { $$ = SimpleType($1); }
 
 array_type:
     simple_type "[" "]" { $1.isArray = true; $$ = $1; }

@@ -7,10 +7,10 @@
 
 class NewArrayExpression: public Expression {
 public:
-    NewArrayExpression(Type type, Expression* size);
+    NewArrayExpression(SimpleType type, Expression* size);
     void accept(Visitor* visitor) override;
 
 private:
-    Type type_;
+    SimpleType type_;
     Expression* size_;
 };
