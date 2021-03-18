@@ -1,6 +1,8 @@
 #include "println.h"
 
 PrintlnStatement::PrintlnStatement(Expression *expression):
-    expression_(expression) {}
+        expression(expression) {}
 
-void PrintlnStatement::accept(Visitor *visitor) {}
+void PrintlnStatement::accept(Visitor *visitor) {
+    visitor->visit(this);
+}

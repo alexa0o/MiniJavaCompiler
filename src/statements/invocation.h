@@ -10,7 +10,6 @@ public:
     InvocationStatement(Expression* invocationExpression);
     void accept(Visitor* visitor) override;
 
-private:
-    Expression* expression_;
+    Expression* expression;
 };
 

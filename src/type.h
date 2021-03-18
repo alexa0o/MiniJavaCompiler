@@ -2,13 +2,19 @@
 
 #include <string>
 
-struct Type {
+struct SimpleType {
     std::string type;
     bool isArray;
 
-    Type() {}
-    Type(const std::string& type): type(type), isArray(false) {}
-    Type(Type&&) = default;
-    Type(const Type&) = default;
-    Type& operator=(const Type&) = default;
+    SimpleType() {}
+    SimpleType(const std::string& type): type(type), isArray(false) {}
+    SimpleType(SimpleType&&) = default;
+    SimpleType(const SimpleType&) = default;
+    SimpleType& operator=(const SimpleType&) = default;
+};
+
+enum class Type {
+    eInt,
+    eBool,
+    eObject
 };

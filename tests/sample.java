@@ -1,6 +1,24 @@
 class Factorial {
   public static void main () {
-    System.out.println (new Fac ().ComputeFac (42));
+    System.out.println (42);
+    int y;
+    y = 7;
+    System.out.println(y);
+    int x = 67;
+    x = y + 3;
+    System.out.println(x);
+    if (x > 3) {
+        x = 2;
+        System.out.println(x);
+        }
+    else
+        System.out.println(x);
+
+    x = 0;
+    while (x < 10) {
+      System.out.println(x);
+      x = x + 1;
+    }
   }
 }
 

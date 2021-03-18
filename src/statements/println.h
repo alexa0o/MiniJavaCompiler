@@ -7,5 +7,5 @@ public:
     PrintlnStatement(Expression* expression);
     void accept(Visitor* visitor) override;
 
-    Expression* expression_;
+    Expression* expression;
 };

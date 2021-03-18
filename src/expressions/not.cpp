@@ -1,6 +1,8 @@
 #include "not.h"
 
 NotExpression::NotExpression(Expression *expression):
-    expression_(expression) {}
+        expression(expression) {}
 
-void NotExpression::accept(Visitor* visitor) {}
+void NotExpression::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

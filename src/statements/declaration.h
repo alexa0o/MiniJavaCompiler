@@ -9,17 +9,15 @@ public:
     DeclarationStatement(Declaration* declaration);
     void accept(Visitor* visitor) override;
 
-private:
-    Declaration* declaration_;
+    Declaration* declaration;
 };
 
 class VariableDeclarationAndAssignStatement: public Statement {
 public:
-    VariableDeclarationAndAssignStatement(Type type, const std::string& variable, Expression* expression);
+    VariableDeclarationAndAssignStatement(SimpleType type, const std::string& variable, Expression* expression);
     void accept(Visitor* visitor) override;
 
-private:
-    std::string variable_;
-    Expression* expression_;
-    Type type_;
+    std::string variable;
+    Expression* expression;
+    SimpleType type;
 };
