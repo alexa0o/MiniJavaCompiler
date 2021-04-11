@@ -11,7 +11,7 @@ ClassDeclaration::ClassDeclaration(const std::string &name, DeclarationList *dec
         name(name), declarations(declarations) {}
 
 void ClassDeclaration::accept(Visitor *visitor) {
-    //visitor->visit(this);
+    visitor->visit(this);
 }
 
 MethodDeclaration::MethodDeclaration(SimpleType type, const std::string &name, StatementList *statementList):
@@ -26,7 +26,7 @@ void DeclarationList::addDeclaration(Declaration *declaration) {
 }
 
 void DeclarationList::accept(Visitor *visitor) {
-    //visitor->visit(this);
+    visitor->visit(this);
 }
 
 size_t DeclarationList::size() const {

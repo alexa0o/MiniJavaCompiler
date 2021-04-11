@@ -30,7 +30,7 @@ TEST(symbol_test, class_symbol_test) {
 
     ScopeManager sm;
     Scope* global = sm.createGlobal();
-    global->declareVariable(class1Var);
+    global->declare(class1Var);
     ASSERT_TRUE(global->has(class1Var));
 
     global->put(class1Var, nullptr);

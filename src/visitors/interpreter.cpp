@@ -174,5 +174,13 @@ void Interpreter::visit(VariableDeclaration *decl) {
     variables_[decl->variable] = 0;
 }
 
+void Interpreter::visit(ClassDeclaration *decl) {
+
+}
+
+void Interpreter::visit(DeclarationList *decl) {
+
+}
+
 
 

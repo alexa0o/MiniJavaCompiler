@@ -206,6 +206,14 @@ void PrintVisitor::visit(VariableDeclaration *decl) {
     stream_ << "Variable decl: " << decl->variable << '\n';
 }
 
+void PrintVisitor::visit(ClassDeclaration *decl) {
+
+}
+
+void PrintVisitor::visit(DeclarationList *decl) {
+
+}
+
 
 
 

@@ -46,6 +46,8 @@ public:
 
     OVERRIDE_VISIT(MethodDeclaration);
     OVERRIDE_VISIT(VariableDeclaration);
+    OVERRIDE_VISIT(ClassDeclaration);
+    OVERRIDE_VISIT(DeclarationList);
 
 #undef OVERRIDE_VISIT
 

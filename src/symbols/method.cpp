@@ -1,4 +1,6 @@
 #include "method.h"
+#include "var.h"
+#include "scope.h"
 
 MethodSymbol::MethodSymbol(const std::string& name,
         std::vector<VarSymbol> args,

@@ -42,6 +42,8 @@ VIRTUAL_VISIT(PrintlnStatement);
 
 VIRTUAL_VISIT(MethodDeclaration);
 VIRTUAL_VISIT(VariableDeclaration);
+VIRTUAL_VISIT(ClassDeclaration);
+VIRTUAL_VISIT(DeclarationList);
 
 #undef VIRTUAL_VISIT
 

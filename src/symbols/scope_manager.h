@@ -8,6 +8,7 @@
 class ScopeManager {
 public:
     Scope* create(const std::string& parentName, const std::string& name);
+    Scope* create(Scope* parent, const std::string& name);
     Scope* createGlobal();
     Scope* get(const std::string& scopeName) const;
 private:

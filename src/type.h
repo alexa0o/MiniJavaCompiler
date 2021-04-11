@@ -2,6 +2,13 @@
 
 #include <string>
 
+enum class Type {
+    eInt,
+    eBool,
+    eObject
+};
+
+
 struct SimpleType {
     std::string type;
     bool isArray;
@@ -11,10 +18,12 @@ struct SimpleType {
     SimpleType(SimpleType&&) = default;
     SimpleType(const SimpleType&) = default;
     SimpleType& operator=(const SimpleType&) = default;
-};
 
-enum class Type {
-    eInt,
-    eBool,
-    eObject
+    Type getType() const {
+        if (type == "int")
+            return Type::eInt;
+        if (type == "bool")
+            return Type::eBool;
+        return Type::eObject;
+    }
 };

@@ -8,3 +8,7 @@ VarSymbol::VarSymbol(const std::string &name, Type type, ClassSymbol *classSymbo
 ClassSymbol *VarSymbol::getClass() const {
     return classSymbol_;
 }
+
+Type VarSymbol::getType() const {
+    return type_;
+}

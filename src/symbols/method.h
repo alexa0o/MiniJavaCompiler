@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "symbol.h"
-#include "scope.h"
 #include "type.h"
 
+class Scope;
 class VarSymbol;
 
 class MethodSymbol : public Symbol {
