@@ -6,3 +6,6 @@
 * Symbols
 * Scope
 * ScopeManager
+
+## Checkpoint 4:  
+* Scope tree
