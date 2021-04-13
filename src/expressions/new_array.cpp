@@ -1,6 +1,6 @@
 #include "new_array.h"
 
-NewArrayExpression::NewArrayExpression(SimpleType type, Expression *size):
+NewArrayExpression::NewArrayExpression(TypeName type, Expression *size):
     type_(std::move(type)), size_(size) {}
 
 void NewArrayExpression::accept(Visitor *visitor) {

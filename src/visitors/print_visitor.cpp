@@ -203,7 +203,7 @@ void PrintVisitor::printTabs() {
 
 void PrintVisitor::visit(VariableDeclaration *decl) {
     printTabs();
-    stream_ << "Variable decl: " << decl->variable << '\n';
+    stream_ << "Variable decl: " << decl->name << '\n';
 }
 
 void PrintVisitor::visit(ClassDeclaration *decl) {

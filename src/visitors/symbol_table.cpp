@@ -99,7 +99,11 @@ void SymbolTableVisitor::visit(DeclarationStatement *statement) {
 }
 
 void SymbolTableVisitor::visit(VariableDeclarationAndAssignStatement *statement) {
-    current_layer_->declareVar(VarSymbol(statement->variable, statement->type.getType()));
+    const ClassSymbol* classSymbol = nullptr;
+    if (statement->type.getType() == Type::eObject) {
+        classSymbol = current_layer_->getClass(Symbol(statement->type.type));
+    }
+    current_layer_->declareVar(VarSymbol(statement->variable, statement->type.getType(), classSymbol));
 }
 
 void SymbolTableVisitor::visit(PrintlnStatement *statement) {
@@ -107,14 +111,32 @@ void SymbolTableVisitor::visit(PrintlnStatement *statement) {
 }
 
 void SymbolTableVisitor::visit(MethodDeclaration *declaration) {
-    current_layer_->declare(Symbol(declaration->name)); // TODO:
     current_layer_ = sm_.create(current_layer_, declaration->name);
+    auto methodScope = current_layer_;
     declaration->statementList->accept(this);
     current_layer_ = current_layer_->getParent();
+
+    // create method symbol
+    std::vector<VarSymbol> args;
+    if (declaration->formals)
+        for (auto& formal : declaration->formals->formals) {
+            const ClassSymbol* classSymbol = nullptr;
+            if (declaration->type.getType() == Type::eObject)
+                classSymbol = current_layer_->getClass(Symbol(declaration->type.type));
+            args.emplace_back(formal.name, formal.type.getType(), classSymbol);
+        }
+
+    current_layer_->declareMethod(
+            MethodSymbol(declaration->name, std::move(args), declaration->type.getType(), methodScope)
+            );
 }
 
 void SymbolTableVisitor::visit(VariableDeclaration *declaration) {
-    current_layer_->declareVar(VarSymbol(declaration->variable, declaration->type.getType()));
+    const ClassSymbol* classSymbol = nullptr;
+    if (declaration->type.getType() == Type::eObject) {
+        classSymbol = current_layer_->getClass(Symbol(declaration->type.type));
+    }
+    current_layer_->declareVar(VarSymbol(declaration->name, declaration->type.getType(), classSymbol));
 }
 
 void SymbolTableVisitor::visit(Program *program) {
@@ -126,10 +148,12 @@ void SymbolTableVisitor::visit(Program *program) {
 }
 
 void SymbolTableVisitor::visit(ClassDeclaration *decl) {
-    current_layer_->declare(Symbol(decl->name)); // TODO:
+    current_layer_->declareClass(ClassSymbol(decl->name));
     current_layer_ = sm_.create(current_layer_, decl->name);
     decl->declarations->accept(this);
     current_layer_ = current_layer_->getParent();
+
+    auto classSymbol = current_layer_->getClass(Symbol(decl->name));
 }
 
 void SymbolTableVisitor::visit(DeclarationList *decl) {

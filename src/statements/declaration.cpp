@@ -7,7 +7,7 @@ void DeclarationStatement::accept(Visitor *visitor) {
     visitor->visit(this);
 }
 
-VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(SimpleType type,
+VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(TypeName type,
                                                                              const std::string &variable,
                                                                              Expression *expression):
         variable(variable), expression(expression), type(std::move(type)) {}

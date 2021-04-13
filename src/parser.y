@@ -108,7 +108,9 @@
 %nterm <Declaration*> method_declaration
 %nterm <MainClassDeclaration*> main_class
 %nterm <Program*> program
-%nterm <SimpleType> type simple_type array_type
+%nterm <TypeName> type simple_type array_type
+%nterm <Formal> name
+%nterm <Formals*> formals
 %nterm <std::string> type_identifier
 
 %%
@@ -141,15 +143,15 @@ declaration:
     | variable_declaration { $$ = $1; }
 
 method_declaration:
-    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($2, $3, $8); }
+    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($2, $3, $5, $8); }
 
 formals:
-    %empty
-    | variable
-    | formals "," variable
+    %empty { $$ = new Formals(); }
+    | name { $$ = new Formals(); $$->addFormal($1); }
+    | formals "," name { $1->addFormal($3); $$ = $1; }
 
-variable:
-    type "identifier"
+name:
+    type "identifier" { $$ = Formal{$1, $2}; }
 
 variable_declaration:
     type "identifier" ";" { $$ = new VariableDeclaration($1, $2); }
@@ -159,10 +161,10 @@ type:
     | array_type { $$ = $1; }
 
 simple_type:
-    "int" { $$ = SimpleType("int"); }
-    | "boolean" { $$ = SimpleType("bool"); }
-    | "void" { $$ = SimpleType(""); }
-    | type_identifier { $$ = SimpleType($1); }
+    "int" { $$ = TypeName("int"); }
+    | "boolean" { $$ = TypeName("bool"); }
+    | "void" { $$ = TypeName(""); }
+    | type_identifier { $$ = TypeName($1); }
 
 array_type:
     simple_type "[" "]" { $1.isArray = true; $$ = $1; }

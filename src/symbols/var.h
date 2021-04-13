@@ -7,12 +7,12 @@ class ClassSymbol;
 
 class VarSymbol : public Symbol {
 public:
-    VarSymbol(const std::string &name, Type type, ClassSymbol *classSymbol = nullptr);
+    VarSymbol(const std::string &name, Type type, const ClassSymbol *classSymbol = nullptr);
 
-    ClassSymbol* getClass() const;
+    const ClassSymbol* getClass() const;
     Type getType() const;
 
 private:
     Type type_;
-    ClassSymbol* classSymbol_;
+    const ClassSymbol* classSymbol_;
 };

@@ -87,4 +87,46 @@ void Scope::declareClass(const ClassSymbol &classSymbol) {
     classSymbols_.push_back(classSymbol);
 }
 
+const ClassSymbol* Scope::getClass(const Symbol &symbol) const {
+    auto current = this;
+    while (!current->hasClass(symbol) && current->parent_ != nullptr)
+        current = current->parent_;
+    if (current->hasClass(symbol))
+        return &classSymbols_.at(classOffsets_.at(symbol));
+    else
+        throw std::runtime_error("class not declared");
+}
+
+bool Scope::hasClass(const Symbol &symbol) const {
+    return classOffsets_.find(symbol) != classOffsets_.end();
+}
+
+const VarSymbol *Scope::getVar(const Symbol &symbol) const {
+    auto current = this;
+    while (!current->hasVar(symbol) && current->parent_ != nullptr)
+        current = current->parent_;
+    if (current->hasVar(symbol))
+        return &varSymbols_.at(varOffsets_.at(symbol));
+    else
+        throw std::runtime_error("var not declared");
+}
+
+const MethodSymbol *Scope::getMethod(const Symbol &symbol) const {
+    auto current = this;
+    while (!current->hasMethod(symbol) && current->parent_ != nullptr)
+        current = current->parent_;
+    if (current->hasMethod(symbol))
+        return &methodSymbols_.at(methodOffsets_.at(symbol));
+    else
+        throw std::runtime_error("method not declared");
+}
+
+bool Scope::hasVar(const Symbol &symbol) const {
+    return varOffsets_.find(symbol) != varOffsets_.end();
+}
+
+bool Scope::hasMethod(const Symbol &symbol) const {
+    return methodOffsets_.find(symbol) != methodOffsets_.end();
+}
+
 

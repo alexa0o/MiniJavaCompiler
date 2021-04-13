@@ -171,7 +171,7 @@ void Interpreter::unsetLValue() {
 }
 
 void Interpreter::visit(VariableDeclaration *decl) {
-    variables_[decl->variable] = 0;
+    variables_[decl->name] = 0;
 }
 
 void Interpreter::visit(ClassDeclaration *decl) {

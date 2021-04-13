@@ -1,23 +1,24 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 enum class Type {
+    eVoid,
     eInt,
     eBool,
     eObject
 };
 
-
-struct SimpleType {
+struct TypeName {
     std::string type;
     bool isArray;
 
-    SimpleType() {}
-    SimpleType(const std::string& type): type(type), isArray(false) {}
-    SimpleType(SimpleType&&) = default;
-    SimpleType(const SimpleType&) = default;
-    SimpleType& operator=(const SimpleType&) = default;
+    TypeName() {}
+    TypeName(const std::string& type): type(type), isArray(false) {}
+    TypeName(TypeName&&) = default;
+    TypeName(const TypeName&) = default;
+    TypeName& operator=(const TypeName&) = default;
 
     Type getType() const {
         if (type == "int")
@@ -25,5 +26,18 @@ struct SimpleType {
         if (type == "bool")
             return Type::eBool;
         return Type::eObject;
+    }
+};
+
+struct Formal {
+    TypeName type;
+    std::string name;
+};
+
+struct Formals {
+    std::vector<Formal> formals;
+
+    void addFormal(const Formal& formal) {
+        formals.push_back(formal);
     }
 };

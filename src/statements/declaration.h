@@ -14,10 +14,10 @@ public:
 
 class VariableDeclarationAndAssignStatement: public Statement {
 public:
-    VariableDeclarationAndAssignStatement(SimpleType type, const std::string& variable, Expression* expression);
+    VariableDeclarationAndAssignStatement(TypeName type, const std::string& variable, Expression* expression);
     void accept(Visitor* visitor) override;
 
     std::string variable;
     Expression* expression;
-    SimpleType type;
+    TypeName type;
 };

@@ -24,8 +24,14 @@ public:
     void declareMethod(const MethodSymbol& methodSymbol);
     void declareClass(const ClassSymbol& classSymbol);
     bool has(const Symbol& var) const;
+    bool hasClass(const Symbol& symbol) const;
+    bool hasVar(const Symbol& symbol) const;
+    bool hasMethod(const Symbol& symbol) const;
     void put(const Symbol& var, std::shared_ptr<Object> value);
     std::shared_ptr<Object> get(const Symbol& var) const;
+    const ClassSymbol* getClass(const Symbol& symbol) const;
+    const VarSymbol* getVar(const Symbol& symbol) const;
+    const MethodSymbol* getMethod(const Symbol& symbol) const;
 
     void addChild(Scope* child);
     Scope* getParent() const;

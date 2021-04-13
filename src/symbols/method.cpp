@@ -13,3 +13,7 @@ MethodSymbol::MethodSymbol(const std::string& name,
 Type MethodSymbol::getResType() const {
     return resType_;
 }
+
+void MethodSymbol::setScope(Scope *scope) {
+    scope_ = scope;
+}

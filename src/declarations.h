@@ -9,7 +9,7 @@
 
 class Declaration: public BaseElement {};
 
-class DeclarationList: public Declaration {
+class DeclarationList : public BaseElement {
 public:
     void addDeclaration(Declaration* declaration);
     size_t size() const;
@@ -20,21 +20,22 @@ public:
 
 class VariableDeclaration: public Declaration {
 public:
-    VariableDeclaration(SimpleType type, const std::string& variable);
+    VariableDeclaration(TypeName type, const std::string& variable);
     void accept(Visitor* visitor) override;
 
-    std::string variable;
-    SimpleType type;
+    std::string name;
+    TypeName type;
 };
 
 class MethodDeclaration: public Declaration {
 public:
-    MethodDeclaration(SimpleType type, const std::string& name, StatementList* statementList);
+    MethodDeclaration(TypeName type, const std::string& name, Formals* formals, StatementList* statementList);
     void accept(Visitor* visitor) override;
 
     std::string name;
+    Formals* formals;
     StatementList* statementList;
-    SimpleType type;
+    TypeName type;
 };
 
 class ClassDeclaration: public Declaration {

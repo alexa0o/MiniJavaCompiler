@@ -6,6 +6,7 @@
 #include "statements/declaration.h"
 #include "visitors/symbol_table.h"
 #include "program.h"
+#include "type.h"
 
 class TestAST : public ::testing::Test {
 protected:
@@ -18,6 +19,20 @@ protected:
     }
 
     void SetUp() {
+        /*
+         * class Test {
+         *     public static void main() {
+         *         System.out.println(42);
+         *     }
+         * }
+         *
+         * class A {
+         *     public int b;
+         *     public void foo() {
+         *         int b;
+         *     }
+         * }
+         */
         auto mainStatements = create<StatementList>();
 
         auto exp42 = create<LiteralExpression>(42);
@@ -27,14 +42,15 @@ protected:
 
         auto classADeclList = create<DeclarationList>();
         auto classA = create<ClassDeclaration>("A", classADeclList);
-        auto varDecl = create<VariableDeclaration>(SimpleType{"int"}, "b");
+        auto varDecl = create<VariableDeclaration>(TypeName{"int"}, "b");
         classADeclList->addDeclaration(varDecl);
 
         auto methodStatements = create<StatementList>();
-        auto localVarDecl = create<VariableDeclaration>(SimpleType{"int"}, "b");
+        auto localVarDecl = create<VariableDeclaration>(TypeName{"int"}, "b");
         auto localVarDeclSt = create<DeclarationStatement>(localVarDecl);
         methodStatements->addStatement(localVarDeclSt);
-        auto method = create<MethodDeclaration>(SimpleType{"bool"}, "foo", methodStatements);
+
+        auto method = create<MethodDeclaration>(TypeName{"void"}, "foo", nullptr, methodStatements);
         classADeclList->addDeclaration(method);
 
         auto declList = create<DeclarationList>();
@@ -59,6 +75,8 @@ TEST_F(TestAST, symbol_table_visitor) {
     auto root = visitor.getRoot();
     Symbol a("A");
     Symbol b("b");
+    auto A = root->getClass(a);
+    ASSERT_EQ(A->getName(), "A");
 
     ASSERT_TRUE(root->has(a));
     ASSERT_TRUE(visitor.getScopeManager().get("global#A")->has(b));
