@@ -1,13 +1,17 @@
 #include "declaration.h"
 
 DeclarationStatement::DeclarationStatement(Declaration *declaration):
-    declaration_(declaration) {}
+        declaration(declaration) {}
 
-void DeclarationStatement::accept(Visitor *visitor) {}
+void DeclarationStatement::accept(Visitor *visitor) {
+    visitor->visit(this);
+}
 
-VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(Type type,
+VariableDeclarationAndAssignStatement::VariableDeclarationAndAssignStatement(TypeName type,
                                                                              const std::string &variable,
                                                                              Expression *expression):
-    variable_(variable), expression_(expression), type_(std::move(type)) {}
+        variable(variable), expression(expression), type(std::move(type)) {}
 
-void VariableDeclarationAndAssignStatement::accept(Visitor *visitor) {}
+void VariableDeclarationAndAssignStatement::accept(Visitor *visitor) {
+    visitor->visit(this);
+}

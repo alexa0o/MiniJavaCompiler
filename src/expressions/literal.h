@@ -8,6 +8,5 @@ public:
     LiteralExpression(int value);
     void accept(Visitor* visitor) override;
 
-private:
-    int value_;
+    int value;
 };

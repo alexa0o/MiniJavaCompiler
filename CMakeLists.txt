@@ -13,7 +13,9 @@ target_link_libraries(MiniJavaCompiler GrammarAndDriver)
 
 enable_testing()
 find_package(GTest REQUIRED)
-add_executable( runUnitTests ${CMAKE_SOURCE_DIR}/tests/ast_test.cpp )
-target_link_libraries(runUnitTests gtest gtest_main GrammarAndDriver pthread)
+add_executable( runUnitTests ${CMAKE_SOURCE_DIR}/tests/ast_test.cpp
+                             ${CMAKE_SOURCE_DIR}/tests/symbol_test.cpp
+                             ${CMAKE_SOURCE_DIR}/tests/visitor_test.cpp )
+target_link_libraries(runUnitTests gtest gtest_main GrammarAndDriver Symbols Objects pthread)
 add_test( runUnitTests runUnitTests )
 configure_file(tests/sample.java ${CMAKE_BINARY_DIR}/sample.java COPYONLY)

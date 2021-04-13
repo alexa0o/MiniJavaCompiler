@@ -1,5 +1,9 @@
 #include "dampersand.h"
 
-int DAmpersandOperator::operator()(Expression *left, Expression *right) {
-    return 0;
+int DAmpersandOperator::operator()(int left, int right) {
+    return left && right;
+}
+
+std::string DAmpersandOperator::toString() const {
+    return "&&";
 }

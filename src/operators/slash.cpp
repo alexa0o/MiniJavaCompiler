@@ -1,5 +1,9 @@
 #include "slash.h"
 
-int SlashOperator::operator()(Expression *left, Expression *right) {
-    return 0;
+int SlashOperator::operator()(int left, int right) {
+    return left / right;
+}
+
+std::string SlashOperator::toString() const {
+    return "/";
 }

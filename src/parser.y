@@ -12,52 +12,7 @@
   class Scanner;
   class Driver;
 
-  class Expression;
-  class AccessExpression;
-  class BinaryExpression;
-  class GetValueExpression;
-  class LengthExpression;
-  class LiteralExpression;
-  class NewExpression;
-  class NewArrayExpression;
-  class NotExpression;
-  class ThisExpression;
-  class InvocationExpression;
-
-  class Statement;
-  class AssertStatement;
-  class AssignStatement;
-  class IfThenStatement;
-  class IfThenElseStatement;
-  class InvocationStatement;
-  class ReturnStatement;
-  class ScopeStatement;
-  class StatementList;
-  class WhileStatement;
-  class DeclarationStatement;
-  class VariableDeclarationAndAssignStatement;
-  class PrintlnStatement;
-
-  struct Operator;
-  struct DAmpersandOperator;
-  struct DAssignOperator;
-  struct DPipeOperator;
-  struct LSTOperator;
-  struct RSTOperator;
-  struct MinusOperator;
-  struct PercentOperator;
-  struct PlusOperator;
-  struct SlashOperator;
-  struct StarOperator;
-
-  class Declaration;
-  class ClassDeclaration;
-  class MainClassDeclaration;
-  class VariableDeclaration;
-  class MethodDeclaration;
-  class DeclarationList;
-
-  class Program;
+  #include "forward_decl.h"
 }
 
 %define parse.trace
@@ -67,42 +22,7 @@
   #include "driver.h"
   #include "location.hh"
 
-  #include "expressions/access.h"
-  #include "expressions/binary.h"
-  #include "expressions/get_value.h"
-  #include "expressions/length.h"
-  #include "expressions/literal.h"
-  #include "expressions/new.h"
-  #include "expressions/new_array.h"
-  #include "expressions/not.h"
-  #include "expressions/this.h"
-  #include "expressions/invocation.h"
-
-  #include "statements/assert.h"
-  #include "statements/assign.h"
-  #include "statements/if_then.h"
-  #include "statements/if_then_else.h"
-  #include "statements/invocation.h"
-  #include "statements/return.h"
-  #include "statements/scope.h"
-  #include "statements/statement_list.h"
-  #include "statements/while.h"
-  #include "statements/declaration.h"
-  #include "statements/println.h"
-
-  #include "operators/dampersand.h"
-  #include "operators/dassign.h"
-  #include "operators/dpipe.h"
-  #include "operators/lts.h"
-  #include "operators/rts.h"
-  #include "operators/minus.h"
-  #include "operators/percent.h"
-  #include "operators/plus.h"
-  #include "operators/slash.h"
-  #include "operators/star.h"
-
-  #include "declarations.h"
-  #include "program.h"
+  #include "headers.h"
 
   static yy::parser::symbol_type yylex(Scanner &scanner, Driver& driver) {
     return scanner.ScanToken();
@@ -188,7 +108,9 @@
 %nterm <Declaration*> method_declaration
 %nterm <MainClassDeclaration*> main_class
 %nterm <Program*> program
-%nterm <Type> type simple_type array_type
+%nterm <TypeName> type simple_type array_type
+%nterm <Formal> name
+%nterm <Formals*> formals
 %nterm <std::string> type_identifier
 
 %%
@@ -221,15 +143,15 @@ declaration:
     | variable_declaration { $$ = $1; }
 
 method_declaration:
-    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($2, $3, $8); }
+    PUBLIC type "identifier" "(" formals ")" "{" statements "}" { $$ = new MethodDeclaration($2, $3, $5, $8); }
 
 formals:
-    %empty
-    | variable
-    | formals "," variable
+    %empty { $$ = new Formals(); }
+    | name { $$ = new Formals(); $$->addFormal($1); }
+    | formals "," name { $1->addFormal($3); $$ = $1; }
 
-variable:
-    type "identifier"
+name:
+    type "identifier" { $$ = Formal{$1, $2}; }
 
 variable_declaration:
     type "identifier" ";" { $$ = new VariableDeclaration($1, $2); }
@@ -239,10 +161,10 @@ type:
     | array_type { $$ = $1; }
 
 simple_type:
-    "int" { $$ = Type("int"); }
-    | "boolean" { $$ = Type("bool"); }
-    | "void" { $$ = Type(""); }
-    | type_identifier { $$ = Type($1); }
+    "int" { $$ = TypeName("int"); }
+    | "boolean" { $$ = TypeName("bool"); }
+    | "void" { $$ = TypeName(""); }
+    | type_identifier { $$ = TypeName($1); }
 
 array_type:
     simple_type "[" "]" { $1.isArray = true; $$ = $1; }
@@ -283,8 +205,8 @@ field_invocation:
     | THIS "." "identifier" "[" expr "]"
 
 lvalue:
-    "identifier" { $$ = new GetValueExpression($1); }
-    //| "identifier" "[" expr "]"
+    "identifier" { $$ = new LValueExpression($1); }
+    | "identifier" "[" expr "]" { $$ = new LValueExpression($1, $3); }
     //| field_invocation
 
 expr:

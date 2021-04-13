@@ -7,6 +7,5 @@ public:
     AssertStatement(Expression* expression);
     void accept(Visitor* visitor) override;
 
-private:
-    Expression* expression_;
+    Expression* expression;
 };

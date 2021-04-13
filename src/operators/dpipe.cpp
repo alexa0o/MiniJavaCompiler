@@ -1,5 +1,9 @@
 #include "dpipe.h"
 
-int DPipeOperator::operator()(Expression *left, Expression *right) {
-    return 0;
+int DPipeOperator::operator()(int left, int right) {
+    return left || right;
+}
+
+std::string DPipeOperator::toString() const {
+    return "||";
 }

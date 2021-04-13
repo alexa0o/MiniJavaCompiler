@@ -1,6 +1,8 @@
 #include "if_then.h"
 
 IfThenStatement::IfThenStatement(Expression *condition, Statement *statement):
-    condition_(condition), statement_(statement) {}
+        condition(condition), statement(statement) {}
 
-void IfThenStatement::accept(Visitor *visitor) {}
+void IfThenStatement::accept(Visitor *visitor) {
+    visitor->visit(this);
+}

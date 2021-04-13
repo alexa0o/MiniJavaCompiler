@@ -3,4 +3,6 @@
 LengthExpression::LengthExpression(Expression *expression):
     expression_(expression) {}
 
-void LengthExpression::accept(Visitor* visitor) {}
+void LengthExpression::accept(Visitor* visitor) {
+    visitor->visit(this);
+}

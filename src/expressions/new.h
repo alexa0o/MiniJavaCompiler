@@ -7,10 +7,10 @@
 
 class NewExpression: public Expression {
 public:
-    NewExpression(Type type);
+    NewExpression(TypeName type);
     void accept(Visitor* visitor) override;
 
 private:
-    Type type_;
+    TypeName type_;
 };
 
